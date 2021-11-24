@@ -89,9 +89,7 @@ const handleLogin = () => {
     //验证通过执行登录逻辑   保存token
     store.dispatch('user/login', loginForm.value)
     // 只有在登录成功的情况下 执行跳转
-    router.push({
-      name: 'Index'
-    })
+    router.push('/')
   })
 }
 </script>

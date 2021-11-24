@@ -6,6 +6,5 @@
 @import './common.scss';
 //覆盖element-plus 默认的侧边导航栏样式
 @import './sidebar.scss';
-//定义主题
-// @import './variable.scss';
-//修改element-plush的样式
+
+@import './transition.scss'

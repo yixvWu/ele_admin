@@ -1,13 +1,17 @@
 <template>
   <div class="navbar">
+    <!-- 切换侧边栏的组件 -->
+    <cuttle class="cuttle-container" />
+    <!-- 面包屑 -->
+    <breadcrumb class="breadcrumb-container" />
     <div class="right-menu">
       <el-dropdown class="avatar-container">
         <!-- 头像 -->
         <div class="avatar-wrapper">
-          <el-avatar shape="square" :size="50" :src="avatar"></el-avatar>
+          <el-avatar shape="square" :size="40" :src="avatar"></el-avatar>
         </div>
         <template #dropdown>
-          <el-dropdown-menu class="user-drop-down">
+          <el-dropdown-menu class="user-dropdown">
             <el-dropdown-item>首页</el-dropdown-item>
             <el-dropdown-item>课程主页</el-dropdown-item>
             <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
@@ -20,6 +24,8 @@
 <script setup>
 import avatar from '@/assets/logo.png'
 import { useStore } from 'vuex'
+import Cuttle from '@/components/Cuttle/index.vue'
+import Breadcrumb from '@/components/Breadcrumb/index.vue'
 
 const store = useStore()
 // 主动退出
@@ -52,6 +58,21 @@ const logout = () => {
         }
       }
     }
+  }
+
+  .cuttle-container {
+    line-height: 50px;
+    height: 100%;
+    float: left;
+    cursor: pointer;
+    transition: background 0.5s;
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+  .breadcrumb-container {
+    height: 50px;
+    line-height: 50px;
   }
 }
 </style>

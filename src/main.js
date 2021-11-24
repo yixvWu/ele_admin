@@ -33,7 +33,6 @@ app.use(store).use(router).mount('#app')
         file-loader 转化的js模块不能动态修改一个图片的颜色
         不利于封装一个全局组件
 */
-
 /*
   查看webpack 的默认配置？？
     vue inspect 查看默认的webpack配置
@@ -47,7 +46,6 @@ app.use(store).use(router).mount('#app')
       npm install -D svg-sprite-loader //-D 保存在devlopment 依赖中
       配置
 */
-
 /*
   退出业务：
     1.token 的作用
@@ -85,7 +83,42 @@ app.use(store).use(router).mount('#app')
       5、token 失效(前端)
         1.用户登录获取得到token 的时候记录时间
         2.指定token 生效时间2小时
+          router.options.routes 获取完成的路由
+            优点：
+              不会存在二级路由多次出现的情况
+            缺点：
+              只能获取当前的路由，对于新增的或者减少的路由表 无法获取
+              在后期配合用户权限的时候，不能根据用户权限更新路由表--》无法更新侧边菜单
+          router.getRoutes()
+            优点：
+              能够获取完整的路由，对于路由变化，也能拿到变化后的路由表，配合用户权限只能用这种方式获取路由
+            缺点：
+              二级路由重复，并且和一级路由放在同一个层级
+
+          问题：
+            1：处理重复的路由    （filterRouter）
+            2：有些路由不应该出现在菜单中/login   （generateMenus）
+              以什么原则决定到底是否在菜单中？ 核心
+                1.meta 路由原信息：如果存在meta && meta.icon && meta.title 应该出现
+                  以title 作为标题 以icon作为Logo 显示
+                    1.如果存在children：以 el-sub-menu 显示一级菜单，
+                      以el-menu-item 显示chidlren的二级菜单
+                    2.不存在children，以el-menu-item 一级菜单
+                2.不过不满足 meta && meta.icon && meta.title 不应该出现
         3.再调用接口的时候需要带token，需要判断这个token 时候在有效期之内
 */
-
+/*
+  侧边导航栏业务
+    1、动态路由的场景
+      根据路由表的配置，动态生成侧边导航栏，路由发生变化，对应的侧边菜单也会发生变化
+    2、静态菜单的生成规则
+       菜单：
+        el-menu 整个菜单
+        el-sub-menu 包含了菜单的一级菜单
+        el-menu-item 子菜单  一级菜单 （跳转页面）
+    3、实现动态路由和菜单的思路
+      1.创建路由和对应的页面组件
+      2.在sidebarMenu.vue中加载创建的路由
+      3.根据获取的路由对象
+*/
 /* eslint-enable */

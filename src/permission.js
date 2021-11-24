@@ -21,7 +21,6 @@ router.beforeEach(async (to, from, next) => {
       // 登录成功 跳转到首页
       if (!store.getters.hasUserInfo) {
         // 判断没有用户的信息 就去发送axios
-
         await store.dispatch('user/getUserInfo')
       }
       next()
