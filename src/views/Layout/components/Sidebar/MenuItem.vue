@@ -23,5 +23,6 @@ defineProps({
 .sideClass {
   margin-right: 10px;
   margin-left: 3px;
+  vertical-align: middle;
 }
 </style>
