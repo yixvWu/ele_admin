@@ -13,10 +13,13 @@ import initSvgIcon from './icons/index.js'
 //用户鉴权
 import './permission.js'
 
+// 导入i18n
+import i18n from '@/i18n/index.js'
+
 const app = createApp(App)
 installElementPlus(app)
 initSvgIcon(app)
-app.use(store).use(router).mount('#app')
+app.use(store).use(router).use(i18n).mount('#app')
 /* eslint-enable */
 
 //入口 main.js（导入模块：js模块，css，文件，字体） --> webpack 出口 js/app.js 文件
@@ -91,7 +94,7 @@ app.use(store).use(router).mount('#app')
               在后期配合用户权限的时候，不能根据用户权限更新路由表--》无法更新侧边菜单
           router.getRoutes()
             优点：
-              能够获取完整的路由，对于路由变化，也能拿到变化后的路由表，配合用户权限只能用这种方式获取路由
+              能 够获取完整的路由，对于路由变化，也能拿到变化后的路由表，配合用户权限只能用这种方式获取路由
             缺点：
               二级路由重复，并且和一级路由放在同一个层级
 
@@ -121,4 +124,16 @@ app.use(store).use(router).mount('#app')
       2.在sidebarMenu.vue中加载创建的路由
       3.根据获取的路由对象
 */
+
+/*
+  中英文切换（国际化）
+    1、需要一个变量 locale 控制语言环境
+    2、所有的语言中的数据源要事先准备好
+    3、定义一个方法获取对应语言包中的数据
+
+  借助 i18n 插件完成 国际化
+    1、下载 i18n
+      npm install vue-i18n@next // 因为项目中vue3.2 版本 保证 i18n 必须 > '9.0.0'
+*/
+
 /* eslint-enable */

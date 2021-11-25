@@ -7,7 +7,8 @@
       ref="loginRef"
     >
       <div class="title-container">
-        <h3 class="title">用户登录</h3>
+        <h3 class="title">{{ $t('msg.login.title') }}</h3>
+        <select-lang class="select-lang" />
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
@@ -35,16 +36,19 @@
         </span>
       </el-form-item>
       <el-button type="primary" class="title-denglu" @click="handleLogin">
-        登录
+        {{ $t('msg.login.loginBtn') }}
       </el-button>
     </el-form>
+    <!-- 账号 tips -->
+    <div class="tips" v-html="$t('msg.login.desc')"></div>
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
-import { passwordValidate } from './rule.js'
+import { ref, watch } from 'vue'
+import { passwordValidate, usernameValidate } from './rule.js'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import SelectLang from '@/components/SelectLang/index.vue'
 
 // 表单数据
 const loginForm = ref({
@@ -58,7 +62,8 @@ const loginRules = ref({
     {
       required: true,
       trigger: 'blur',
-      message: '账号必须填写'
+      // message: i18n.t('msg.login.usernameRule') // 不具备响应式
+      validator: usernameValidate()
     }
   ],
   password: [
@@ -92,6 +97,15 @@ const handleLogin = () => {
     router.push('/')
   })
 }
+// 监听getters.language 的变化
+watch(
+  () => store.getters.language,
+  (newValue, oldValue) => {
+    // 中英文切换了 验证重新执行
+    loginRef.value.validateField('username')
+    loginRef.value.validateField('password')
+  }
+)
 </script>
 <style lang="scss" scoped>
 $bg: #2d3a4b;
@@ -108,8 +122,7 @@ $cursor: #fff;
   min-height: 100%;
   width: 100%;
   height: 100vh;
-  background: url('../../assets/背景图.jpg');
-  background-size: 100% 100%;
+  background: $dark_gray;
   overflow: hidden;
 
   .title-container {
@@ -117,9 +130,17 @@ $cursor: #fff;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 20px auto;
       text-align: center;
       font-weight: bold;
+    }
+    :deep(.select-lang) {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      font-size: 24px;
+      border-radius: 4px;
+      cursor: pointer;
     }
   }
 
@@ -127,11 +148,8 @@ $cursor: #fff;
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 80px 35px;
-    margin: 60px auto 0;
+    margin: 140px auto 0;
     overflow: hidden;
-    border-radius: 15px;
-    background: rgba(65, 65, 65, 0.315);
     ::v-deep .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(0, 0, 0, 0.1);
@@ -139,7 +157,7 @@ $cursor: #fff;
       color: #454545;
       .el-input {
         height: 47px;
-        width: 85%;
+        width: 83%;
         .el-input__inner {
           background: transparent;
           border: 0px;
@@ -147,7 +165,6 @@ $cursor: #fff;
           padding: 12px 5px 12px 15px;
           color: $cursor;
           height: 47px;
-          // caret-color: $cursor;
         }
       }
     }
@@ -162,6 +179,15 @@ $cursor: #fff;
       height: 50px;
       margin-top: 30px;
     }
+  }
+  .tips {
+    width: 520px;
+    height: 230px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 25px;
+    color: #fff;
+    margin-bottom: 10px;
   }
 }
 </style>

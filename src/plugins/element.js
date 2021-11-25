@@ -1,7 +1,10 @@
 import ElementPlus from 'element-plus'
 import '../styles/element-variables.scss'
-import locale from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn.js'
+import en from 'element-plus/lib/locale/lang/en.js'
+import store from '@/store/index.js'
 
 export default (app) => {
-  app.use(ElementPlus, { locale })
+  // app.use 使用一个插件 app.components()注册一个全局组件
+  app.use(ElementPlus, { locale: store.getters.language === 'zh' ? zhCn : en })
 }
